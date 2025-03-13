@@ -47,15 +47,18 @@ async function bootstrap() {
   app.setBaseViewsDir(path.join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
 
-app.getHttpAdapter().getInstance().get('/', (_req: any, res: { send: (arg0: string) => void; }) => {
-  res.send("SABRE SERVER IS RUNNING");
-});
+  app
+    .getHttpAdapter()
+    .getInstance()
+    .get('/', (_req: any, res: { send: (arg0: string) => void }) => {
+      res.send('SABRE SERVER IS RUNNING');
+    });
 
   const configService = app.get<ConfigService>(ConfigService);
   if (['development', 'staging'].includes(configService.get('app.nodeEnv'))) {
     setupSwagger(app);
   }
-  
+
   await app.listen(process.env.PORT);
 
   if (module.hot) {

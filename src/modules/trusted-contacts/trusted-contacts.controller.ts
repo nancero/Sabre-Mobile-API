@@ -63,10 +63,10 @@ export class TrustedContactsController {
       return await this.trustedContactsService.verifyPhone(verifyToken);
     } catch (error) {
       const errorMsg = getErrorMessage(error);
-      
+
       if (
         errorMsg === 'Can not find your verify token' ||
-        errorMsg === 'Already verified!' 
+        errorMsg === 'Already verified!'
       ) {
         return errorMsg;
       }

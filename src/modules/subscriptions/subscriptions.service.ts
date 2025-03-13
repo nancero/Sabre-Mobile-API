@@ -70,7 +70,7 @@ export class SubscriptionsService {
     isCancelled?: number;
     validationResponse?: string;
   }) {
-    console.log(subscription.originalTransactionId,"OTD")
+    console.log(subscription.originalTransactionId, 'OTD');
     const data = Object.keys(subscription)?.reduce((result, currentKey) => {
       const currentValue = subscription[currentKey];
       if (currentValue === null || currentValue === undefined) return result;
@@ -78,7 +78,7 @@ export class SubscriptionsService {
       result[currentKey] = currentValue;
       return result;
     }, {});
-    console.log("--Updating data",data,subscription?.originalTransactionId)
+    console.log('--Updating data', data, subscription?.originalTransactionId);
     return this?.subscriptionModel?.findOneAndUpdate(
       { originalTransactionId: subscription?.originalTransactionId },
       data,
@@ -88,91 +88,100 @@ export class SubscriptionsService {
 
   async processPurchase(platform: string, userId: string, receipt) {
     try {
+      console.log('Started Compiling', receipt, platform, userId);
+      await this?.iap?.setup();
+      console.log('IAP setup');
+      const validationResponse = await this?.iap?.validate(
+        PAYMENT_SERVICES.GOGGLE,
+        receipt,
+        undefined,
+      );
+      console.log('validationResponse', validationResponse);
 
-    console.log("Started Compiling",receipt,platform,userId)
-    await this?.iap?.setup();
-    console.log("IAP setup")
-    const validationResponse = await this?.iap?.validate(PAYMENT_SERVICES.GOGGLE, receipt , undefined);
-    console.log("validationResponse",validationResponse);
+      if (
+        (platform === PLATFORM_OS?.ANDROID &&
+          validationResponse?.service !== PAYMENT_SERVICES?.GOGGLE) ||
+        (platform === PLATFORM_OS.IOS &&
+          validationResponse?.service !== PAYMENT_SERVICES?.APPLE)
+      ) {
+        return new Error('Platform input is incorrect');
+      }
 
-    if (
-      (platform === PLATFORM_OS?.ANDROID &&
-        validationResponse?.service !== PAYMENT_SERVICES?.GOGGLE) ||
-      (platform === PLATFORM_OS.IOS &&
-        validationResponse?.service !== PAYMENT_SERVICES?.APPLE)
-    ) {
-      return new Error('Platform input is incorrect');
-    }
+      const purchaseData = await this?.iap?.getPurchaseData(validationResponse);
+      const firstPurchaseItem = purchaseData[0];
+      const isCancelled = await this?.iap?.isCanceled(firstPurchaseItem);
+      const { productId } = firstPurchaseItem;
 
-    const purchaseData = await this?.iap?.getPurchaseData(validationResponse);
-    const firstPurchaseItem = purchaseData[0];
-    const isCancelled = await this?.iap?.isCanceled(firstPurchaseItem);
-    const { productId } = firstPurchaseItem;
+      console.log('purchaseData', purchaseData, isCancelled);
 
-    console.log("purchaseData",purchaseData,isCancelled);
+      if (platform === PLATFORM_OS.IOS) {
+        const originalTransactionId = firstPurchaseItem?.originalTransactionId;
+        const latestReceipt = validationResponse?.latest_receipt;
+        const purchasedDateMs = firstPurchaseItem?.originalPurchaseDateMs;
+        const expiresDateMs = firstPurchaseItem?.expiresDateMs;
+        const environment = validationResponse?.sandbox
+          ? 'sandbox'
+          : 'production';
 
-    if (platform === PLATFORM_OS.IOS) {
-      const originalTransactionId = firstPurchaseItem?.originalTransactionId;
-      const latestReceipt = validationResponse?.latest_receipt;
-      const purchasedDateMs = firstPurchaseItem?.originalPurchaseDateMs;
-      const expiresDateMs = firstPurchaseItem?.expiresDateMs;
-      const environment = validationResponse?.sandbox
-        ? 'sandbox'
-        : 'production';
-
-      return await this?.updateSubscription({
-        platform,
-        userId,
-        environment,
-        productId,
-        latestReceipt,
-        originalTransactionId,
-        expiresDateMs,
-        purchasedDateMs,
-        isCancelled,
-        validationResponse: JSON.stringify(validationResponse),
-      });
-    }
-
-    if (platform === PLATFORM_OS?.ANDROID) {
-      const originalTransactionId = firstPurchaseItem?.transactionId;
-      const latestReceipt = JSON?.stringify(receipt);
-      const purchasedDateMs = parseInt(firstPurchaseItem?.startTimeMillis, 10);
-      const expiresDateMs = parseInt(firstPurchaseItem?.expiryTimeMillis, 10);
-      const environment = validationResponse?.sandbox
-        ? 'sandbox'
-        : 'production';
-
-      const result = await this?.updateSubscription({
-        platform,
-        userId,
-        environment,
-        productId,
-        latestReceipt,
-        originalTransactionId,
-        expiresDateMs,
-        purchasedDateMs,
-        isCancelled,
-        validationResponse: JSON?.stringify(validationResponse),
-      });
-
-      console.log("---result",result);
-
-      if (validationResponse?.acknowledgementState === 0) {
-        // From https://developer.android.com/google/play/billing/billing_library_overview:
-        // You must acknowledge all purchases within three days.
-        // Failure to properly acknowledge purchases results in those purchases being refunded.
-        await this?.iap?.androidAcknowledge({
-          subscriptionId: productId,
-          token: receipt.purchaseToken,
+        return await this?.updateSubscription({
+          platform,
+          userId,
+          environment,
+          productId,
+          latestReceipt,
+          originalTransactionId,
+          expiresDateMs,
+          purchasedDateMs,
+          isCancelled,
+          validationResponse: JSON.stringify(validationResponse),
         });
       }
-      return result;
-    }
+
+      if (platform === PLATFORM_OS?.ANDROID) {
+        const originalTransactionId = firstPurchaseItem?.transactionId;
+        const latestReceipt = JSON?.stringify(receipt);
+        const purchasedDateMs = parseInt(
+          firstPurchaseItem?.startTimeMillis,
+          10,
+        );
+        const expiresDateMs = parseInt(firstPurchaseItem?.expiryTimeMillis, 10);
+        const environment = validationResponse?.sandbox
+          ? 'sandbox'
+          : 'production';
+
+        const result = await this?.updateSubscription({
+          platform,
+          userId,
+          environment,
+          productId,
+          latestReceipt,
+          originalTransactionId,
+          expiresDateMs,
+          purchasedDateMs,
+          isCancelled,
+          validationResponse: JSON?.stringify(validationResponse),
+        });
+
+        console.log('---result', result);
+
+        if (validationResponse?.acknowledgementState === 0) {
+          // From https://developer.android.com/google/play/billing/billing_library_overview:
+          // You must acknowledge all purchases within three days.
+          // Failure to properly acknowledge purchases results in those purchases being refunded.
+          await this?.iap?.androidAcknowledge({
+            subscriptionId: productId,
+            token: receipt.purchaseToken,
+          });
+        }
+        return result;
+      }
     } catch (error) {
-        console.log("ERROR ON processPurchase",error,JSON.stringify(error.message))
+      console.log(
+        'ERROR ON processPurchase',
+        error,
+        JSON.stringify(error.message),
+      );
     }
-    
   }
 
   async getActiveSubscription(userId: string) {
@@ -185,44 +194,48 @@ export class SubscriptionsService {
           expiresDateMs: { $gte: nowMs },
         })
         .exec();
-  
+
       return subscription;
     } catch (error) {
-        console.log("ERROR OCCURED ON getActiveSubscription",error);
+      console.log('ERROR OCCURED ON getActiveSubscription', error);
     }
-   
   }
 
   async getUserSubscription(userId: string) {
     try {
       const subscription = await this?.subscriptionModel
-      .find({
-        userId,
-      })
-      .sort({ purchasedDateMs: -1 })
-      .limit(1)
-      .exec();
-    console.log("getUserSubscription",subscription?.[0])
-    return subscription?.[0];
+        .find({
+          userId,
+        })
+        .sort({ purchasedDateMs: -1 })
+        .limit(1)
+        .exec();
+      console.log('getUserSubscription', subscription?.[0]);
+      return subscription?.[0];
     } catch (error) {
-      console.log("ERROR OCCURED ON getUserSubscription",error)
+      console.log('ERROR OCCURED ON getUserSubscription', error);
     }
-   
   }
 
-  async checkValidSubscription(subscription:any) {
+  async checkValidSubscription(subscription: any) {
     try {
       if (subscription?.isCancelled) {
-        console.log('entered cancellation')
+        console.log('entered cancellation');
         return false;
       }
       const nowMs = Date.now();
-      console.log(nowMs,subscription?.purchasedDateMs,subscription?.expiresDateMs);
-      return subscription?.purchasedDateMs <= nowMs && subscription?.expiresDateMs >= nowMs ;
+      console.log(
+        nowMs,
+        subscription?.purchasedDateMs,
+        subscription?.expiresDateMs,
+      );
+      return (
+        subscription?.purchasedDateMs <= nowMs &&
+        subscription?.expiresDateMs >= nowMs
+      );
     } catch (error) {
-      console.log('ERROR OCCURED ON checkValidSubscription',error);
+      console.log('ERROR OCCURED ON checkValidSubscription', error);
     }
-   
   }
 
   getWebhookData({ platform, data }) {

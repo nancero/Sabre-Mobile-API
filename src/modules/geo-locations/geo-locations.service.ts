@@ -32,7 +32,10 @@ export class GeoLocationsService {
     return null;
   }
 
-  async updateCurrentLocation(userId: string, geoLocationData: CreateGeoLocationDto) {
+  async updateCurrentLocation(
+    userId: string,
+    geoLocationData: CreateGeoLocationDto,
+  ) {
     const { latitude, longitude, accuracy, alertId } = geoLocationData;
     if (alertId) {
       const geolocationInput = {
@@ -51,7 +54,12 @@ export class GeoLocationsService {
           },
         )
         .exec();
-      console.log('Alert Updated ::::::::::::::::::',alertId,latitude,longitude)
+      console.log(
+        'Alert Updated ::::::::::::::::::',
+        alertId,
+        latitude,
+        longitude,
+      );
     }
 
     return null;

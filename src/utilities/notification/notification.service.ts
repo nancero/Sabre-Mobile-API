@@ -45,11 +45,11 @@ export class NotificationService {
 
       this.client
         .createNotification(notification)
-        .then(response => {
+        .then((response) => {
           // tslint:disable-next-line: no-console
           console.log(response.body.id);
         })
-        .catch(e => {
+        .catch((e) => {
           if (e instanceof OneSignal.HTTPError) {
             // When status code of HTTP response is not 2xx, HTTPError is thrown.
             // tslint:disable-next-line: no-console

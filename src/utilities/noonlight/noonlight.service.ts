@@ -14,28 +14,28 @@ export class NoonlightService {
   async createAlarm(user, location): Promise<any> {
     const { firstName, lastName, phone, pinCode } = user;
     const { latitude, longitude, accuracy } = location;
-console.log("pradeep");
-let data_json = JSON.stringify({
-        name: `${firstName} ${lastName}`,
-        phone: phone.replace(/[^\d]/, ''),
-        pin: pinCode,
-        owner_id: user._id,
-        location: {
-          coordinates: {
-            lat: latitude,
-            lng: longitude,
-            accuracy: parseInt(accuracy, 10) || 50,
-          },
+    console.log('pradeep');
+    const data_json = JSON.stringify({
+      name: `${firstName} ${lastName}`,
+      phone: phone.replace(/[^\d]/, ''),
+      pin: pinCode,
+      owner_id: user._id,
+      location: {
+        coordinates: {
+          lat: latitude,
+          lng: longitude,
+          accuracy: parseInt(accuracy, 10) || 50,
         },
-        services: {
-          police: true,
-          fire: false,
-          medical: false,
-        },
-      });
+      },
+      services: {
+        police: true,
+        fire: false,
+        medical: false,
+      },
+    });
 
     console.log(data_json);
-    console.log("hosn response");
+    console.log('hosn response');
     const response = await got.post(`${this.noonlightURL}/dispatch/v1/alarms`, {
       headers: {
         authorization: `Bearer ${this.noonlightServerToken}`,
@@ -56,7 +56,7 @@ let data_json = JSON.stringify({
           },
         },
         services: {
-          police: true
+          police: true,
         },
       }),
     });

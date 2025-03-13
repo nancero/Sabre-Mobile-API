@@ -20,7 +20,7 @@ export class TwilioService {
     return this.client;
   }
   public sendSMS(to: string, message: string): Promise<any> {
-    console.log('sendSMS triggered',message);
+    console.log('sendSMS triggered', message);
     return this.client.messages.create({
       from: this.twilioOptions.twilioNumber,
       to,

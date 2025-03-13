@@ -54,7 +54,7 @@ export class TrustedContactsService {
     const activeUrl = `${this.configService.get(
       'app.serverUri',
     )}/api/trusted-contacts/verify/${verifyToken}`;
-    console.log(activeUrl,"ActiveURL1")
+    console.log(activeUrl, 'ActiveURL1');
     const shortenURL = await this.urlShortenerService.shorten(activeUrl);
 
     this.twilioService
@@ -96,7 +96,7 @@ export class TrustedContactsService {
       'app.serverUri',
     )}/api/trusted-contacts/verify/${verifyToken}`;
     const shortenURL = await this.urlShortenerService.shorten(activeUrl);
-    console.log(activeUrl,"ActiveURL2");
+    console.log(activeUrl, 'ActiveURL2');
     this.twilioService
       .sendSMS(
         foundTrustedContact.phone,

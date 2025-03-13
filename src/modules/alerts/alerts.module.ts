@@ -25,9 +25,10 @@ import { SubscriptionsModule } from '../subscriptions/subscriptions.module';
     SubscriptionsModule,
   ],
   exports: [
-    MongooseModule.forFeature([{ name: 'Alert', schema: AlertSchema }]),AlertsService
+    MongooseModule.forFeature([{ name: 'Alert', schema: AlertSchema }]),
+    AlertsService,
   ],
   controllers: [AlertsController],
-  providers: [AlertsService]
+  providers: [AlertsService],
 })
 export class AlertsModule {}

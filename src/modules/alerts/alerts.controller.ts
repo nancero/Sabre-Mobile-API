@@ -38,7 +38,7 @@ export class AlertsController {
   @Post()
   @UseGuards(AuthGuard)
   create(@UserRequest() user: IUser, @Body() alertData: CreateAlertDto) {
-    console.log("Entered Backend", alertData);
+    console.log('Entered Backend', alertData);
     return this.alertsService.create(user._id, alertData);
   }
 
@@ -180,25 +180,26 @@ export class AlertsController {
   logMessage(@Body() logData: CreateLogDto) {
     try {
       const currentTime = new Date().toLocaleTimeString(); // Get the current time in "HH:MM" format
-    console.log(`[${currentTime}], "${logData.message}",Location : ${logData.location}`);
-    return { message: 'Log recorded successfully', timestamp: currentTime };
+      console.log(
+        `[${currentTime}], "${logData.message}",Location : ${logData.location}`,
+      );
+      return { message: 'Log recorded successfully', timestamp: currentTime };
     } catch (error) {
-      console.log("ERROR ON POST LOGS",error);
+      console.log('ERROR ON POST LOGS', error);
     }
-    
   }
 
   @Post('logs-t')
   logMessages(@Body() logData: any) {
     try {
       const currentTime = new Date().toLocaleTimeString(); // Get the current time in "HH:MM" format
-    console.log(`[${currentTime}], ${JSON.parse(logData)}`);
-    return { message: 'Logs-t recorded successfully', timestamp: currentTime };
+      console.log(`[${currentTime}], ${JSON.parse(logData)}`);
+      return {
+        message: 'Logs-t recorded successfully',
+        timestamp: currentTime,
+      };
     } catch (error) {
-      console.log("ERROR ON POST LOGS",error);
+      console.log('ERROR ON POST LOGS', error);
     }
-    
   }
 }
-
-

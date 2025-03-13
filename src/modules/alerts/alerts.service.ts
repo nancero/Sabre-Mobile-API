@@ -47,7 +47,7 @@ export class AlertsService {
         const subscription = await this.subscriptionsService.getActiveSubscription(
           createdBy,
         );
-	console.log("subscription");
+        console.log('subscription');
         console.log(subscription);
         if (subscription) {
           alarmId = await this.noonlightService.createAlarm(user, {
@@ -57,13 +57,13 @@ export class AlertsService {
           });
         }
       }
-      //alarmId = await this.noonlightService.createAlarm(user, {
-        // latitude,
-         //longitude,
-         //accuracy,
-       //});
-       console.log("sample alarm");
-       console.log(alarmId);
+      // alarmId = await this.noonlightService.createAlarm(user, {
+      // latitude,
+      // longitude,
+      // accuracy,
+      // });
+      console.log('sample alarm');
+      console.log(alarmId);
     } catch (err) {
       this.logger.error('TCL: AlertsService -> err1', err);
 
@@ -82,7 +82,7 @@ export class AlertsService {
         createdBy,
         alarmId,
       });
-      
+
       const createdAtLocation = await this.geoLocationsService.create(
         createdBy,
         {
@@ -210,8 +210,10 @@ export class AlertsService {
   }
 
   updateEndAlert(query: any, alertData: any) {
-    const updatedAlertRes =  this.alertModel.findOneAndUpdate(query, alertData, { new: true });
-    console.log("updatedAlert",updatedAlertRes);
+    const updatedAlertRes = this.alertModel.findOneAndUpdate(query, alertData, {
+      new: true,
+    });
+    console.log('updatedAlert', updatedAlertRes);
     return updatedAlertRes;
   }
 

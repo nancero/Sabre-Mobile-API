@@ -1,9 +1,9 @@
-import { IsString } from "class-validator";
+import { IsString } from 'class-validator';
 
 export class CreateLogDto {
-    @IsString()
-    location: string;
-  
-    @IsString()
-    message: string;
-  }
+  @IsString()
+  location: string;
+
+  @IsString()
+  message: string;
+}

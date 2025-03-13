@@ -38,14 +38,12 @@ export class LocationSubscribeGateway
     const room = data?.alertId ? `alert-${data.alertId}` : null;
 
     if (room) {
-
       this.logger.debug(`Sending message to room: ${room}`);
 
       this.listClientsInRoom(room);
       this.sendToAllClientsInRoom(room, 'message', data);
 
       this.logger.debug(`Message sent to room: ${room}`);
-
 
       // Sync location with Noonlight API
       const throttleSyncLocationWithNoonlight = throttle(

@@ -22,7 +22,7 @@ export const TrustedContactSchema: Schema = new Schema(
 );
 
 // user update phone of trusted contact
-TrustedContactSchema.pre<ITrustedContact>('save', function(next) {
+TrustedContactSchema.pre<ITrustedContact>('save', function (next) {
   if ((this.isNew || this.isModified('phone')) && this.phone) {
     this.phone = convertPhone(this.phone);
     this.phoneNumberVerified = false;

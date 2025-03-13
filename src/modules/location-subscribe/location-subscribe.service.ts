@@ -29,7 +29,7 @@ export class LocationSubscribeService {
     private readonly loggerService: LoggerService,
     private readonly urlShortenerService: URLShortenerService,
     private readonly configService: ConfigService,
-    private readonly geoLocationService : GeoLocationsService
+    private readonly geoLocationService: GeoLocationsService,
   ) {}
 
   getRoomNameByAlertId(alertId: string) {
@@ -145,13 +145,15 @@ export class LocationSubscribeService {
     )}/tracking/${alertId}`;
 
     const shortenURL = await this.urlShortenerService.shorten(mapURL);
-    const location = await this.geoLocationService.getUserLatestLocation( userId );
-    console.log("location.....", location);
+    const location = await this.geoLocationService.getUserLatestLocation(
+      userId,
+    );
+    console.log('location.....', location);
     const latitude = location.coordinates[0];
     const longitude = location.coordinates[1];
     const message = `${firstName} ${lastName} has triggered a Safety Alert.\n Their GPS coordinates Latitude: ${latitude} and Longitude: ${longitude}.\n Please check your text message for their location here: ${mapURL}`;
     const voiceMessage = `${firstName} ${lastName} has triggered a Safety Alert.\n Please check your text message for their location and GPS coordinates.\n NOTICE: create a contact for SABRE Alert Notification coming from 312-262-5395`;
-    
+
     this.twilioService
       .sendManySMS(trustedContactPhones, message)
       .catch((err) => {

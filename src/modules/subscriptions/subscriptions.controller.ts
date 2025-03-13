@@ -35,17 +35,17 @@ export class SubscriptionsController {
     try {
       const { platform, purchase } = subscriptionBody;
 
-    if (platform !== 'ios' && platform !== 'android') {
-      throw new BadRequestException('platform required ios or android');
-    }
+      if (platform !== 'ios' && platform !== 'android') {
+        throw new BadRequestException('platform required ios or android');
+      }
 
-    return await this.subscriptionsService.create({
-      platform,
-      purchase,
-      userId: user._id,
-    });
+      return await this.subscriptionsService.create({
+        platform,
+        purchase,
+        userId: user._id,
+      });
     } catch (error) {
-      console.log("ERROR OCCURED ON verifyReceipt",error);
+      console.log('ERROR OCCURED ON verifyReceipt', error);
     }
   }
 
@@ -67,7 +67,7 @@ export class SubscriptionsController {
       purchase,
       isSubscription: true,
     });
-    console.log("generateRec",receipt)
+    console.log('generateRec', receipt);
     return await this.subscriptionsService.processPurchase(
       platform,
       null,
@@ -105,20 +105,20 @@ export class SubscriptionsController {
     try {
       const userId = user._id;
 
-    const subscription = await this.subscriptionsService.getUserSubscription(
-      userId,
-    );
-    let subscriptionStatus =await this.subscriptionsService.checkValidSubscription(
-      subscription,
-    )
-    console.log('status',subscriptionStatus)
-    const response = {
-      subscription,
-      isSubscribed: subscriptionStatus
-    };
-    return response;
+      const subscription = await this.subscriptionsService.getUserSubscription(
+        userId,
+      );
+      const subscriptionStatus = await this.subscriptionsService.checkValidSubscription(
+        subscription,
+      );
+      console.log('status', subscriptionStatus);
+      const response = {
+        subscription,
+        isSubscribed: subscriptionStatus,
+      };
+      return response;
     } catch (error) {
-      console.log("ERROR OCCURED",error)
+      console.log('ERROR OCCURED', error);
     }
   }
 }

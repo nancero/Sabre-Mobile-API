@@ -13,10 +13,16 @@ import { type } from 'os';
 export class IAPService {
   androidGoogleApi: any;
   constructor(private readonly configService: ConfigService) {
-    console.log("PrivateKEY Logged",this.configService.get('iap.googleServiceAccountEmail'),this.configService
-    ?.get<string>('iap.googleServiceAccountPrivateKey')
-    ?.replace(/\\n/g, '\n'),typeof(this.configService
-      ?.get<string>('iap.googleServiceAccountPrivateKey')))
+    console.log(
+      'PrivateKEY Logged',
+      this.configService.get('iap.googleServiceAccountEmail'),
+      this.configService
+        ?.get<string>('iap.googleServiceAccountPrivateKey')
+        ?.replace(/\\n/g, '\n'),
+      typeof this.configService?.get<string>(
+        'iap.googleServiceAccountPrivateKey',
+      ),
+    );
     iap.config({
       /* Configuration for IOS Platform */
       // If you want to exclude old transaction, set this to true. Default is false:
@@ -48,11 +54,13 @@ export class IAPService {
         ['https://www.googleapis.com/auth/androidpublisher'],
       ),
     });
-    console.log('mailUsed',this.configService.get('iap.googleServiceAccountEmail') );
+    console.log(
+      'mailUsed',
+      this.configService.get('iap.googleServiceAccountEmail'),
+    );
 
     this.androidGoogleApi = google.androidpublisher({ version: 'v3' });
   }
-
 
   generateReceipt({
     platform,
@@ -82,8 +90,8 @@ export class IAPService {
     return iap.setup();
   }
 
-  validate( service ,receipt , cb) {
-    return iap.validate(service,receipt,cb);
+  validate(service, receipt, cb) {
+    return iap.validate(service, receipt, cb);
   }
 
   getPurchaseData(validationResponse) {

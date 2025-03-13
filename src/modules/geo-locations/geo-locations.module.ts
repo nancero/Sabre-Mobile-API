@@ -9,8 +9,10 @@ import { AlertsModule } from '../alerts/alerts.module';
 import { LocationSubscribeModule } from '../location-subscribe/location-subscribe.module';
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'GeoLocation', schema: GeoLocationSchema }]),
-    forwardRef(() => AlertsModule),  // Keep only this reference for AlertsModule
+    MongooseModule.forFeature([
+      { name: 'GeoLocation', schema: GeoLocationSchema },
+    ]),
+    forwardRef(() => AlertsModule), // Keep only this reference for AlertsModule
     AuthModule,
     NoonlightModule,
     LocationSubscribeModule,

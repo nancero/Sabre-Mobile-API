@@ -39,27 +39,29 @@ export class GeoLocationsController {
   @UseGuards(AuthGuard)
   async create(@Request() req, @Body() geoLocationData: CreateGeoLocationDto) {
     try {
-      console.log("GEOLOCATION DATA :::: CALLED")
+      console.log('GEOLOCATION DATA :::: CALLED');
       const syncLocationWithNoonlight = async (
         alertId: string,
         location: any,
       ) => {
-        const { alarmId, status } = await this.alertsService.findOneById(alertId);
+        const { alarmId, status } = await this.alertsService.findOneById(
+          alertId,
+        );
         if (alarmId && status === AlertStatus.ALERT) {
           this.noonlightService.updateLocation(alarmId, location);
         }
       };
-  
+
       const user = req.user;
       const geoLocation = await this.geoLocationService.create(
         user.id,
         geoLocationData,
       );
-      
+
       const updateGeoLocation = await this.geoLocationService.updateCurrentLocation(
         user.id,
         geoLocationData,
-      )
+      );
 
       if (geoLocation) {
         const location = {
@@ -73,7 +75,7 @@ export class GeoLocationsController {
           'message',
           location,
         );
-  
+
         // Sync location with Noonlight API
         const throttleSyncLocationWithNoonlight = throttle(
           syncLocationWithNoonlight,
@@ -87,9 +89,8 @@ export class GeoLocationsController {
       }
       return geoLocation;
     } catch (error) {
-      console.log("ERR ON GEOLOCATION",error)
+      console.log('ERR ON GEOLOCATION', error);
     }
-   
   }
 
   @Get()
