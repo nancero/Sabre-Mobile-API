@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  app:
+    image: 'node:12.8.2'
+    container_name: sabre-backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /home/ubuntu
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - .:/home/ubuntu
+      - /home/ubuntu/node_modules
+    ports:
+      - 3000:3000
+    tty: true
+    restart: always
+    env_file:
+      - .env
+    command: 'npm run start:prod'

@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "sabrered-9b641",
+  "private_key_id": "4fcb311dbf6ec5eb09566257898ad471b03b83c9",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCtSjF+gIW18NSw\nvNMhFp8UZqW4qi1/PRiXn6gqGqz6rB686GHurxOlRlY+7KCjtiuYNDNHNRR1E8n2\nmajMWJkUhsOMddH5WxY+epfNx+UMRXjmh0D8OpRh4nMKyWYGvJYv9O7iKh4DVGfu\n1jZ0MMJ+FRhU6k0VhNivNo17SkC3G+BqPQ4XEFq5iADQ5x4TvqB61W8c1JXD4Cpn\n5riE1v129lBjXyKo1jdO0zpZf03EGLOBtnSgHRpACzwOG2x8ZulHHT7dtbC2gErK\nYFPpqIxpWk5ZtzcyNopUZAWZwgsaIwKHkgzfcZ8xL4E2VPFUcav/WDRKQ1qULIBT\nE+T/g8NDAgMBAAECggEAIcjKN3iFGQCX5tEZdGT9pLOScZsz/Y+CwOTOm07SFJkD\n8R55IViewuUgoWnus5wriaP7r1FI6L5v7JTulNBdH+RaMYMy6aN5hbrO576mCCtv\nM7qAz+v3y9GjTiIPsxaHTVg6TnuZmFqXXLgEq8hp0rz4Hm4Dk0NwH1DKapQCY/BI\nNifqKur5Sl2hweCrXkHWE1xVkN5C70eeRxF2qCjbvQEnKxgpHvCG1Pls0ZOCWSsG\nSWqjbnLIk5+itEjHz5WeIB7v80sIOKOg0FYc+WemvAoStkcqr0vbFZ6bpURScAWp\nCm99+Bhp6C77iLKysU3HShiVF1iNst5aJnMAyfKuIQKBgQDaD5vHLgUH0pmVRrjk\nS+/ewZ7c5gINvMw386z3ZkZApXPyNEfgnQWHZpO0CEU8p2Djb/HFbF62cGVFLdg3\n29FLc0q68hdXfebyZDziiMGTODnckss/VfHWYc2oWvlMz3V4+CMc0dBOV6uCtIgZ\ngQexxLKKnpwQfjNJOptaO8gmEwKBgQDLcHyayM2wXPwpjQ6k39jEn/CG2YSnxhww\n1RW3EaHADAQ84RBmwAarME//mF47vDeX4S63y7uGNGzVzFZHJzziA+MvEDRjSSbZ\nu2nDVd6yHEDJm5s5Tws2RbPum+Rg/0fLE3re/add3HFtLBn+b2ekMm9XZ3VCNAbH\nep/JrblUEQKBgG4o/HV/FiOBjP0QoU8T3bYW8n595AO0oSaS/4psLIl0DEMLjlQ2\nfxiMBYops3CUzimX3/fwa1iXJ1Hvew+dCPqo39PZgVk9zXIemXOHyuLowLJhpjP0\n4xt+hTrL2q2nEJ1wHaztgeJR/98j/K2FtbFkwR2uSwE6AAa6iMjo8o/pAoGAcu+Q\nVlqQas194XPCDEAzVZMO7wDBQ5BXqPcaF52shrXDRynYfFSM7/aRm9PXmWQS/InK\nPSirP30q5/dT30s5yG9t0M8U6esQOf76F9PRx0rTB5QUNGKF8RmcOHh2pJ5VT1Qo\nHQetoQfERWufG/KQ2WFtKjJXOxntopGS6PxvMiECgYEAwz8FetnxJLu2zz5izUuj\nSII7XF6IMZNTKOnAfeEgdzl+/sGvmxy4smQbZMheSfj3jP1t4/kvyh6y7kBFbldj\nKWou6s/kYJPRwikE2qpCUWJD90GA0n8jqCjhwGja7ABbEaPOiSxOl2BFwdx3s34K\nwXIg2MWgA+NyLJqc8elU4HY=\n-----END PRIVATE KEY-----\n",
+  "client_email": "sabre-purchase-validator@sabrered-9b641.iam.gserviceaccount.com",
+  "client_id": "114412614575244679235",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/sabre-purchase-validator%40sabrered-9b641.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
