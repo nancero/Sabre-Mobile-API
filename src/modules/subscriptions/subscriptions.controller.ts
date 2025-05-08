@@ -33,6 +33,7 @@ export class SubscriptionsController {
     @Body() subscriptionBody: any,
   ) {
     try {
+      console.log('###### Entered Subscription')
       const { platform, purchase } = subscriptionBody;
 
       if (platform !== 'ios' && platform !== 'android') {

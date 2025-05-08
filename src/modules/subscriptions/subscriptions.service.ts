@@ -91,11 +91,22 @@ export class SubscriptionsService {
       console.log('Started Compiling', receipt, platform, userId);
       await this?.iap?.setup();
       console.log('IAP setup');
-      const validationResponse = await this?.iap?.validate(
-        PAYMENT_SERVICES.GOGGLE,
-        receipt,
-        undefined,
-      );
+      let validationResponse;
+      if(platform === PLATFORM_OS.IOS) {
+        validationResponse = await this?.iap?.validate(
+          PAYMENT_SERVICES.APPLE,
+          receipt,
+          undefined,
+        );
+      }
+      else if(platform === PLATFORM_OS.ANDROID) {
+        validationResponse = await this?.iap?.validate(
+          PAYMENT_SERVICES.GOGGLE,
+          receipt,
+          undefined,
+        );
+      }
+      
       console.log('validationResponse', validationResponse);
 
       if (
@@ -115,6 +126,7 @@ export class SubscriptionsService {
       console.log('purchaseData', purchaseData, isCancelled);
 
       if (platform === PLATFORM_OS.IOS) {
+        console.log("Entered IOS")
         const originalTransactionId = firstPurchaseItem?.originalTransactionId;
         const latestReceipt = validationResponse?.latest_receipt;
         const purchasedDateMs = firstPurchaseItem?.originalPurchaseDateMs;

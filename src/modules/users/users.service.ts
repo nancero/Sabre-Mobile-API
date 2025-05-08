@@ -279,6 +279,7 @@ export class UsersService {
   async updateUserSettings(id: string, userSettings: UpdateUserSettingsDto) {
     const listUpdate = {};
     // tslint:disable-next-line: forin
+    console.log('userSettings======>>>>>', userSettings);
     for (const key in userSettings) {
       listUpdate[`userSettings.${key}`] = userSettings[key];
     }

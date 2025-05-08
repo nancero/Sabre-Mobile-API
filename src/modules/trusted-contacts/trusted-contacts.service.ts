@@ -124,8 +124,36 @@ export class TrustedContactsService {
       throw new Error('Can not find your verify token');
     }
     if (trustedContact.phoneNumberVerified) {
-      // throw new Error('Already verified');
-      return '<h2>Already verified</h2>';
+      return `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verification</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f9f9f9;
+      }
+      h1 {
+        font-size: clamp(1.5rem, 10vw, 3rem);
+        text-align: center;
+        color: black;
+      }
+    </style>  
+  </head>
+  <body>
+    <h1>Already Verified</h1>
+  </body>
+  </html>
+  `;
     }
 
     this.notificationService.pushNotificationToUsers(
@@ -148,7 +176,36 @@ export class TrustedContactsService {
       )
       .exec();
 
-    return '<h2>Your number is verified successfully</h2>';
+    return `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Verification</title>
+        <style>
+          body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f9f9f9;
+          }
+          h1 {
+            font-size: clamp(1.5rem, 10vw, 3rem);
+            text-align: center;
+            color: black;
+          }
+        </style>
+      </head>
+      <body>
+        <h1>Your number is verified successfully</h1>
+      </body>
+      </html>
+      `;
   }
 
   deleteOneById(id: string) {

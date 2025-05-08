@@ -152,7 +152,7 @@ export class LocationSubscribeService {
     const latitude = location.coordinates[0];
     const longitude = location.coordinates[1];
     const message = `${firstName} ${lastName} has triggered a Safety Alert.\n Their GPS coordinates Latitude: ${latitude} and Longitude: ${longitude}.\n Please check your text message for their location here: ${mapURL}`;
-    const voiceMessage = `${firstName} ${lastName} has triggered a Safety Alert.\n Please check your text message for their location and GPS coordinates.\n NOTICE: create a contact for SABRE Alert Notification coming from 312-262-5395`;
+    const voiceMessage = `${firstName} ${lastName} has triggered a Safety Alert.\n Please check your text message for their location and GPS coordinates.\n NOTICE: Mark this number 312-262-5395 as a safe number to receive notifications from SABRE Personal Safety`;
 
     this.twilioService
       .sendManySMS(trustedContactPhones, message)

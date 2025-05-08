@@ -51,7 +51,7 @@ async function bootstrap() {
     .getHttpAdapter()
     .getInstance()
     .get('/', (_req: any, res: { send: (arg0: string) => void }) => {
-      res.send('SABRE SERVER IS RUNNING');
+      res.send('SABRE SERVER IS RUNNING - 07/05/2025 Last Updated - II');
     });
 
   const configService = app.get<ConfigService>(ConfigService);
