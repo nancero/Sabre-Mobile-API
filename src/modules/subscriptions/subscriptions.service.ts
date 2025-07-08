@@ -78,7 +78,6 @@ export class SubscriptionsService {
       result[currentKey] = currentValue;
       return result;
     }, {});
-    console.log('--Updating data', data, subscription?.originalTransactionId);
     return this?.subscriptionModel?.findOneAndUpdate(
       { originalTransactionId: subscription?.originalTransactionId },
       data,
@@ -106,8 +105,6 @@ export class SubscriptionsService {
           undefined,
         );
       }
-      
-      console.log('validationResponse', validationResponse);
 
       if (
         (platform === PLATFORM_OS?.ANDROID &&

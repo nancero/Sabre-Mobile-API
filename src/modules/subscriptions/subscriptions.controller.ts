@@ -68,7 +68,6 @@ export class SubscriptionsController {
       purchase,
       isSubscription: true,
     });
-    console.log('generateRec', receipt);
     return await this.subscriptionsService.processPurchase(
       platform,
       null,

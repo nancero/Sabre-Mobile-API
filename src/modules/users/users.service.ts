@@ -48,7 +48,27 @@ export class UsersService {
     const user = await this.findOneByPhone(phone);
     if (user) {
       if (verificationMethod === 'call') {
-        await this.twilioService.sendOTP(user.phone, verificationMethod);
+        const resetPasswordOTP = await user.saveResetPasswordOTP();
+        const commaSeparatedOTP = resetPasswordOTP
+          .toString()
+          .split('')
+          .join(',');
+        const digitWords: Record<string, string> = {
+          '0': 'zero',
+          '1': 'one',
+          '2': 'two',
+          '3': 'three',
+          '4': 'four',
+          '5': 'five',
+          '6': 'six',
+          '7': 'seven',
+          '8': 'eight',
+          '9': 'nine',
+        };
+        const spokenOTP = resetPasswordOTP.toString().split('').map(d => digitWords[d]).join(' ');
+        const message = `Sabre App OTP is ${spokenOTP}. This OTP is valid for 3 minutes . Repeating OTP , ${spokenOTP} `;
+        await this.twilioService.sendCall(user.phone, message);
+        //await this.twilioService.sendOTP(user.phone, verificationMethod);
         return true;
       }
 

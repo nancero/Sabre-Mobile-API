@@ -11,14 +11,20 @@ export class TwilioService {
   ) {
     this.client = twilio(twilioOptions.accountSid, twilioOptions.authToken);
 
-    this.client.verify
-      .services(twilioOptions.verificationSid)
-      .update({ dtmfInputRequired: false, friendlyName: 'Sabre OTP' });
+    // this.client.verify
+    //   .services(twilioOptions.verificationSid)
+    //   .update({ dtmfInputRequired: false, friendlyName: 'Sabre OTP' })
+    //   .then(() => console.log('✅ Verification service updated'))
+    //   .catch((err) => console.error('❌ Failed to update verification service:', err));
+
+    // // Check verification SID validity
+    // this.checkVerificationSidStatus();
   }
 
   get instance() {
     return this.client;
   }
+
   public sendSMS(to: string, message: string): Promise<any> {
     console.log('sendSMS triggered', message);
     return this.client.messages.create({
@@ -64,5 +70,21 @@ export class TwilioService {
     return this.client.verify
       .services(this.twilioOptions.verificationSid)
       .verifications.create({ channel, to: phoneNumber });
+  }
+
+  // ✅ New method to confirm if verificationSid is valid and details are correct
+  private async checkVerificationSidStatus() {
+    try {
+      const service = await this.client.verify
+        .services(this.twilioOptions.verificationSid)
+        .fetch();
+
+      console.log('✅ Verification SID is valid.');
+      console.log('Friendly Name:', service.friendlyName);
+      console.log('Date Created:', service.dateCreated);
+      console.log('Status:', service.dateUpdated);
+    } catch (error) {
+      console.error('❌ Invalid Verification SID or not found:', error.message);
+    }
   }
 }
