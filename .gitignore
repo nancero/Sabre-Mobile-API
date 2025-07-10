@@ -2,6 +2,7 @@
 /dist
 /node_modules
 deploy.sh
+sabrered-9b641-0d1f2a005d0e.json
 # Logs
 logs
 *.log
